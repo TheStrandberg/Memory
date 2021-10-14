@@ -1,8 +1,8 @@
 var section = document.querySelector("section");
-var playerLivesCount = document.querySelector("span");
-var playerLives = "6";
+var playerLivesCount = document.getElementById("playerLivesCount");
+var playerLives = 5;
 //Link text
-playerLivesCount.textContent = playerLives;
+playerLivesCount.textContent = "" + playerLives;
 //Get the image data
 var getData = function () { return [
     { imgSrc: "./images/Bart_Simpson.png", name: "bart" },
@@ -48,7 +48,7 @@ var cardGenerator = function () {
         card.appendChild(back);
         card.addEventListener("click", function (e) {
             card.classList.toggle("toggleCard");
-            checkCards(card);
+            checkCards(e);
         });
     });
 };
@@ -56,13 +56,24 @@ var checkCards = function (e) {
     var clickedCard = e.target;
     clickedCard.classList.add("flipped");
     var flippedCards = document.querySelectorAll(".flipped");
+    console.log(flippedCards);
     //Logic
     if (flippedCards.length === 2) {
         if (flippedCards[0].getAttribute("name") === flippedCards[1].getAttribute("name")) {
             console.log("match");
+            flippedCards.forEach(function (card) {
+                card.classList.remove("flipped");
+                card.style.pointerEvents = "none";
+            });
         }
         else {
             console.log("wrong");
+            flippedCards.forEach(function (card) {
+                card.classList.remove("flipped");
+                setTimeout(function () { return card.classList.remove("toggleCard"); }, 1500);
+            });
+            playerLives--;
+            playerLivesCount.textContent = "" + playerLives;
         }
     }
 };

@@ -1,9 +1,9 @@
 const section = document.querySelector("section")! as HTMLElement;
-const playerLivesCount = document.querySelector("span")! as HTMLElement;
-const playerLives: string = "6";
+const playerLivesCount = document.getElementById("playerLivesCount")! as HTMLElement;
+let playerLives: number = 5;
 
 //Link text
-playerLivesCount.textContent = playerLives;
+playerLivesCount.textContent = "" + playerLives;
 
 //Get the image data
 const getData = () => [
@@ -54,7 +54,7 @@ const cardGenerator = () => {
 
         card.addEventListener("click", (e) => {
             card.classList.toggle("toggleCard");
-            checkCards(card);
+            checkCards(e);
         });
     });
 } 
@@ -63,17 +63,26 @@ const checkCards = (e) => {
     const clickedCard = e.target;
     clickedCard.classList.add("flipped");
     const flippedCards = document.querySelectorAll(".flipped");
+    console.log(flippedCards)
     //Logic
     if (flippedCards.length === 2) {
         if (flippedCards[0].getAttribute("name") === flippedCards[1].getAttribute("name")) {
             console.log("match");
+            flippedCards.forEach((card: any) => {
+                card.classList.remove("flipped");
+                card.style.pointerEvents = "none";
+            });
         }
         else {
             console.log("wrong");
+            flippedCards.forEach(card => {
+                card.classList.remove("flipped");
+                setTimeout(() => card.classList.remove("toggleCard"), 1500);  
+            });
+            playerLives--;
+            playerLivesCount.textContent = "" + playerLives;
         }
-
     }
-    
 }
 
 cardGenerator();
