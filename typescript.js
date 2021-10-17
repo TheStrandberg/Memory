@@ -1,6 +1,6 @@
 var section = document.querySelector("section");
 var playerLivesCount = document.getElementById("playerLivesCount");
-var playerLives = 5;
+var playerLives = 6;
 //Link text
 playerLivesCount.textContent = "" + playerLives;
 //Get the image data
@@ -59,7 +59,8 @@ var checkCards = function (e) {
     console.log(flippedCards);
     //Logic
     if (flippedCards.length === 2) {
-        if (flippedCards[0].getAttribute("name") === flippedCards[1].getAttribute("name")) {
+        if (flippedCards[0].getAttribute("name") ===
+            flippedCards[1].getAttribute("name")) {
             console.log("match");
             flippedCards.forEach(function (card) {
                 card.classList.remove("flipped");
@@ -70,11 +71,34 @@ var checkCards = function (e) {
             console.log("wrong");
             flippedCards.forEach(function (card) {
                 card.classList.remove("flipped");
-                setTimeout(function () { return card.classList.remove("toggleCard"); }, 1500);
+                setTimeout(function () { return card.classList.remove("toggleCard"); }, 1000);
             });
             playerLives--;
             playerLivesCount.textContent = "" + playerLives;
         }
+        if (playerLives === 0) {
+            setTimeout(function () {
+                alert("You Lost");
+                playerLives = 6;
+                playerLivesCount.textContent = "" + playerLives;
+                restart();
+            }, 1000);
+        }
     }
 };
+function restart() {
+    var cardData = randomize();
+    var faces = document.querySelectorAll(".face");
+    var cards = document.querySelectorAll(".card");
+    section.style.pointerEvents = "none";
+    cardData.forEach(function (item, index) {
+        cards[index].classList.remove("toggleCard");
+        setTimeout(function () {
+            cards[index].style.pointerEvents = "all";
+            faces[index].src = item.imgSrc;
+            cards[index].setAttribute("name", item.name);
+        }, 1100);
+    });
+    section.style.pointerEvents = "all";
+}
 cardGenerator();
