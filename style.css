@@ -13,6 +13,12 @@ body {
     
 }
 
+h1 {
+    color: rgb(254, 217, 15);
+    font-size: 35px;
+    padding: 1rem;
+}
+
 section {
     display: grid;
     /* Create a grid with 4 rows and 4 colors, each size 12rem */
