@@ -1,8 +1,10 @@
 var section = document.querySelector("section");
 var main = document.querySelector("main");
 var aside = document.querySelector("aside");
-var playAgainButton = document.getElementById("playAgainButton");
-var quitButton = document.getElementById("quitButton");
+var playAgainButton = document.querySelector(".playAgainButton");
+var quitButton = document.querySelector(".quitButton");
+var playAgainButton2 = document.querySelector(".playAgainButton-2");
+var quitButton2 = document.querySelector(".quitButton-2");
 var playerLivesCount = document.getElementById("playerLivesCount");
 var playerLives = 6;
 //Link text
@@ -94,7 +96,7 @@ var checkCards = function (e) {
         setTimeout(function () {
             section.setAttribute("class", "blur");
             aside.style.visibility = "visible";
-            playAgainButton.addEventListener("click", restart);
+            playAgainButton2.addEventListener("click", restart);
         }, 1000);
     }
 };
@@ -114,6 +116,7 @@ function restart() {
     section.style.pointerEvents = "all";
     section.removeAttribute("class");
     main.style.visibility = "hidden";
+    aside.style.visibility = "hidden";
     playerLives = 6;
     playerLivesCount.textContent = "" + playerLives;
 }

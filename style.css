@@ -66,7 +66,7 @@ main, aside {
     visibility: hidden;
 }
 
-main button, aside button {
+button {
     width: 250px;
     padding: 40px;
     margin-top: 1.4rem;
@@ -77,10 +77,14 @@ main button, aside button {
     border-radius: 20px;
 }
 
-aside h1 {
+aside h1, main h1 {
     color: rgb(209, 178, 113);
     border: 1px solid rgb(112, 209, 254);
     background-color: rgb(66, 79, 70);
     font-size: 35px;
     padding: 1rem;
+}
+
+main h1 {
+    padding: 2.2rem;
 }
