@@ -10,6 +10,7 @@ body {
     flex-direction: column;
     height: 100vh;
     background-image: linear-gradient(rgb(112, 209, 254), rgb(189, 255, 255));
+    
 }
 
 section {
@@ -49,4 +50,37 @@ section {
 
 .toggleCard {
     transform: rotateY(180deg);
+}
+
+.blur {
+    filter: blur(8px);
+    transition: 3s ease-in-out;
+}
+
+main, aside {
+    position: absolute;
+    text-align: center;
+    width: 400px;
+    height: 300px;
+    margin-bottom: 150px;
+    visibility: hidden;
+}
+
+main button, aside button {
+    width: 250px;
+    padding: 40px;
+    margin-top: 1.4rem;
+    color: rgb(254, 217, 15);
+    font-size: 25px;
+    background-color: rgb(112, 209, 254);
+    border: 5px solid rgb(153, 223, 255);
+    border-radius: 20px;
+}
+
+aside h1 {
+    color: rgb(209, 178, 113);
+    border: 1px solid rgb(112, 209, 254);
+    background-color: rgb(66, 79, 70);
+    font-size: 35px;
+    padding: 1rem;
 }

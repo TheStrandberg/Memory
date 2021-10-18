@@ -1,4 +1,8 @@
 const section = document.querySelector("section")! as HTMLElement;
+const main = document.querySelector("main")! as HTMLAreaElement;
+const aside = document.querySelector("aside")! as HTMLAreaElement;
+const playAgainButton = document.getElementById("playAgainButton")! as HTMLButtonElement;
+const quitButton = document.getElementById("quitButton")! as HTMLButtonElement;
 const playerLivesCount = document.getElementById(
   "playerLivesCount"
 )! as HTMLElement;
@@ -64,6 +68,7 @@ const checkCards = (e) => {
   const clickedCard = e.target;
   clickedCard.classList.add("flipped");
   const flippedCards = document.querySelectorAll(".flipped");
+  const toggleCard = document.querySelectorAll(".toggleCard");
   console.log(flippedCards);
   //Logic
   if (flippedCards.length === 2) {
@@ -86,13 +91,20 @@ const checkCards = (e) => {
       playerLivesCount.textContent = "" + playerLives;
     }
     if (playerLives === 0) {
+      section.style.pointerEvents = "none";
       setTimeout(() => {
-        alert("You Lost");
-        playerLives = 6;
-        playerLivesCount.textContent = "" + playerLives;
-        restart();
+        section.setAttribute("class", "blur");
+        main.style.visibility = "visible";
+        playAgainButton.addEventListener("click", restart);
       }, 1000);
     }
+  }
+  if (toggleCard.length === 16) {
+    setTimeout(() => {
+        section.setAttribute("class", "blur");
+        aside.style.visibility = "visible";
+        playAgainButton.addEventListener("click", restart);
+    }, 1000);
   }
 };
 
@@ -110,6 +122,10 @@ function restart() {
     }, 1100);
   });
   section.style.pointerEvents = "all";
+  section.removeAttribute("class");
+  main.style.visibility = "hidden";
+  playerLives = 6;
+  playerLivesCount.textContent = "" + playerLives;
 }
 
 cardGenerator();
