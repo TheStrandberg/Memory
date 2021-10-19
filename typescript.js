@@ -66,9 +66,11 @@ var checkCards = function (e) {
     console.log(flippedCards);
     //Logic
     if (flippedCards.length === 2) {
+        section.style.pointerEvents = "none";
         if (flippedCards[0].getAttribute("name") ===
             flippedCards[1].getAttribute("name")) {
             console.log("match");
+            section.style.pointerEvents = "all";
             flippedCards.forEach(function (card) {
                 card.classList.remove("flipped");
                 card.style.pointerEvents = "none";
@@ -78,17 +80,28 @@ var checkCards = function (e) {
             console.log("wrong");
             flippedCards.forEach(function (card) {
                 card.classList.remove("flipped");
-                setTimeout(function () { return card.classList.remove("toggleCard"); }, 1000);
+                card.style.pointerEvents = "none";
+                setTimeout(function () {
+                    card.style.pointerEvents = "all";
+                    section.style.pointerEvents = "all";
+                    card.classList.remove("toggleCard");
+                }, 1000);
             });
             playerLives--;
             playerLivesCount.textContent = "" + playerLives;
         }
         if (playerLives === 0) {
-            section.style.pointerEvents = "none";
+            var card_1 = document.querySelectorAll(".card");
+            card_1.forEach(function (item, index) {
+                card_1[index].style.pointerEvents = "none";
+            });
             setTimeout(function () {
                 section.setAttribute("class", "blur");
                 main.style.visibility = "visible";
                 playAgainButton.addEventListener("click", restart);
+                quitButton.onclick = function (event) {
+                    close();
+                };
             }, 1000);
         }
     }
@@ -97,6 +110,9 @@ var checkCards = function (e) {
             section.setAttribute("class", "blur");
             aside.style.visibility = "visible";
             playAgainButton2.addEventListener("click", restart);
+            quitButton2.onclick = function (event) {
+                close();
+            };
         }, 1000);
     }
 };
@@ -111,13 +127,15 @@ function restart() {
             cards[index].style.pointerEvents = "all";
             faces[index].src = item.imgSrc;
             cards[index].setAttribute("name", item.name);
-        }, 1100);
+        }, 1000);
     });
-    section.style.pointerEvents = "all";
-    section.removeAttribute("class");
-    main.style.visibility = "hidden";
-    aside.style.visibility = "hidden";
-    playerLives = 6;
-    playerLivesCount.textContent = "" + playerLives;
+    setTimeout(function () {
+        section.style.pointerEvents = "all";
+        section.removeAttribute("class");
+        main.style.visibility = "hidden";
+        aside.style.visibility = "hidden";
+        playerLives = 6;
+        playerLivesCount.textContent = "" + playerLives;
+    }, 1000);
 }
 cardGenerator();
