@@ -1,4 +1,6 @@
 const section = document.querySelector("section")! as HTMLElement;
+const gameWindow = document.querySelector(".game")! as HTMLElement;
+const startWindow = document.querySelector(".start")! as HTMLElement;
 const main = document.querySelector("main")! as HTMLAreaElement;
 const aside = document.querySelector("aside")! as HTMLAreaElement;
 const playAgainButton = document.querySelector(".playAgainButton")! as HTMLButtonElement;
@@ -6,35 +8,41 @@ const quitButton = document.querySelector(".quitButton")! as HTMLButtonElement;
 const playAgainButton2 = document.querySelector(".playAgainButton-2")! as HTMLButtonElement;
 const quitButton2 = document.querySelector(".quitButton-2")! as HTMLButtonElement;
 const playerLivesCount = document.getElementById("playerLivesCount")! as HTMLElement;
+let choice: boolean = false;
 
-let playerLives: number = 6;
+
+let playerLives: number = 1;
 
 //Link text
 playerLivesCount.textContent = "" + playerLives;
 
-//Get the image data
-const getData = () => [
-  { imgSrc: "./images/Bart_Simpson.png", name: "bart" },
-  { imgSrc: "./images/Duff_man.png", name: "duff man" },
-  { imgSrc: "./images/Edna_Krabappel.png", name: "edna krabappel" },
-  { imgSrc: "./images/Flandersjunksale.jpg", name: "flanders junk sale" },
-  { imgSrc: "./images/Homer_Simpson.png", name: "homer simpson" },
-  { imgSrc: "./images/Lisa_Simpson.png", name: "lisa simpson" },
-  { imgSrc: "./images/Montgomery_Burns.png", name: "burns" },
-  { imgSrc: "./images/comic_book_man.png", name: "comic book guy" },
-  { imgSrc: "./images/Bart_Simpson.png", name: "bart" },
-  { imgSrc: "./images/Duff_man.png", name: "duff man" },
-  { imgSrc: "./images/Edna_Krabappel.png", name: "edna krabappel" },
-  { imgSrc: "./images/Flandersjunksale.jpg", name: "flanders junk sale" },
-  { imgSrc: "./images/Homer_Simpson.png", name: "homer simpson" },
-  { imgSrc: "./images/Lisa_Simpson.png", name: "lisa simpson" },
-  { imgSrc: "./images/Montgomery_Burns.png", name: "burns" },
-  { imgSrc: "./images/comic_book_man.png", name: "comic book guy" },
-];
+const simpsonsButton = document.getElementById("simpsons")! as HTMLButtonElement;
+simpsonsButton.addEventListener("click", playSimpsons);
+function playSimpsons() {
+    startWindow.style.display = "none";
+    gameWindow.style.visibility = "visible";
+    cardGenerator();
+}
+
+const familyGuyButton = document.getElementById("familyguy")! as HTMLButtonElement;
+familyGuyButton.addEventListener("click", playFamilyGuy);
+function playFamilyGuy() {
+  startWindow.style.display = "none";
+    gameWindow.style.visibility = "visible";
+    choice = true;
+    cardGenerator();
+}
 
 //Randomize
-const randomize = () => {
-  const cardData = getData();
+function randomize() {
+  let cardData = [];
+  if (choice === false)
+  {
+    cardData = getSimpsonsData();
+  }
+  else {
+    cardData = getFamilyGuyData();
+  }
   cardData.sort(() => Math.random() - 0.5);
   return cardData;
 };
@@ -67,6 +75,7 @@ const cardGenerator = () => {
 
 const checkCards = (e) => {
   const clickedCard = e.target;
+  clickedCard.style.pointerEvents = "none";
   clickedCard.classList.add("flipped");
   const flippedCards = document.querySelectorAll(".flipped");
   const toggleCard = document.querySelectorAll(".toggleCard");
@@ -78,38 +87,40 @@ const checkCards = (e) => {
       flippedCards[0].getAttribute("name") ===
       flippedCards[1].getAttribute("name")
     ) {
-      console.log("match");
       section.style.pointerEvents = "all";
       flippedCards.forEach((card: any) => {
         card.classList.remove("flipped");
-        card.style.pointerEvents = "none";
       });
     } 
     else {
       playerLives--;
       playerLivesCount.textContent = "" + playerLives;
       if (playerLives === 0) {
+        section.style.pointerEvents = "none";
+        flippedCards.forEach((card: any) => {
+          card.classList.remove("flipped");
+          card.style.pointerEvents = "none";
+        });
         setTimeout(() => {
           section.setAttribute("class", "blur");
           main.style.visibility = "visible";
-          section.style.pointerEvents = "none";
           playAgainButton.addEventListener("click", restart);
           quitButton.onclick = (event) => {
             close();
           };
         }, 1000);
       }
-      else {   
-      console.log("wrong");
-      flippedCards.forEach((card: any) => {
-        card.classList.remove("flipped");
-        card.style.pointerEvents = "none";
-        setTimeout(() => {
-          card.style.pointerEvents = "all";
-          section.style.pointerEvents = "all";
-          card.classList.remove("toggleCard");
-        }, 1000);
-      });
+      else {
+        section.style.pointerEvents = "none";
+        flippedCards.forEach((card: any) => {
+          card.classList.remove("flipped");
+          card.style.pointerEvents = "none";
+          setTimeout(() => {
+            card.style.pointerEvents = "revert";
+            section.style.pointerEvents = "all";
+            card.classList.remove("toggleCard");
+          }, 1000);
+        });
       }
     }
   }
@@ -133,7 +144,7 @@ function restart() {
   cardData.forEach((item: any, index: number) => {
     cards[index].classList.remove("toggleCard");
     setTimeout(() => {
-      cards[index].style.pointerEvents = "all";
+      cards[index].style.pointerEvents = "revert";
       faces[index].src = item.imgSrc;
       cards[index].setAttribute("name", item.name);
     }, 1000);
@@ -148,4 +159,42 @@ function restart() {
   }, 2000);
 }
 
-cardGenerator();
+//Get the image data
+const getSimpsonsData = () => [
+  { imgSrc: "./images/thesimpsons/Bart_Simpson.png", name: "bart" },
+  { imgSrc: "./images/thesimpsons/Duff_man.png", name: "duff man" },
+  { imgSrc: "./images/thesimpsons/Edna_Krabappel.png", name: "edna krabappel" },
+  { imgSrc: "./images/thesimpsons/Flandersjunksale.jpg", name: "flanders junk sale" },
+  { imgSrc: "./images/thesimpsons/Homer_Simpson.png", name: "homer simpson" },
+  { imgSrc: "./images/thesimpsons/Lisa_Simpson.png", name: "lisa simpson" },
+  { imgSrc: "./images/thesimpsons/Montgomery_Burns.png", name: "burns" },
+  { imgSrc: "./images/thesimpsons/comic_book_man.png", name: "comic book guy" },
+  { imgSrc: "./images/thesimpsons/Bart_Simpson.png", name: "bart" },
+  { imgSrc: "./images/thesimpsons/Duff_man.png", name: "duff man" },
+  { imgSrc: "./images/thesimpsons/Edna_Krabappel.png", name: "edna krabappel" },
+  { imgSrc: "./images/thesimpsons/Flandersjunksale.jpg", name: "flanders junk sale" },
+  { imgSrc: "./images/thesimpsons/Homer_Simpson.png", name: "homer simpson" },
+  { imgSrc: "./images/thesimpsons/Lisa_Simpson.png", name: "lisa simpson" },
+  { imgSrc: "./images/thesimpsons/Montgomery_Burns.png", name: "burns" },
+  { imgSrc: "./images/thesimpsons/comic_book_man.png", name: "comic book guy" },
+];
+
+const getFamilyGuyData = () => [
+  { imgSrc: "./images/familyguy/brian_griffin.png", name: "brian griffin" },
+  { imgSrc: "./images/familyguy/chris_griffin.png", name: "chris griffin" },
+  { imgSrc: "./images/familyguy/cleveland_brown.png", name: "cleveland brown" },
+  { imgSrc: "./images/familyguy/glen_quagmire.png", name: "glen_quagmire" },
+  { imgSrc: "./images/familyguy/lois_griffin.png", name: "lois griffin" },
+  { imgSrc: "./images/familyguy/meg_griffin.jpg", name: "meg griffin" },
+  { imgSrc: "./images/familyguy/peter_griffin.png", name: "peter griffin" },
+  { imgSrc: "./images/familyguy/stewie_griffin.jpg", name: "stewie griffin" },
+  { imgSrc: "./images/familyguy/brian_griffin.png", name: "brian griffin" },
+  { imgSrc: "./images/familyguy/chris_griffin.png", name: "chris griffin" },
+  { imgSrc: "./images/familyguy/cleveland_brown.png", name: "cleveland brown" },
+  { imgSrc: "./images/familyguy/glen_quagmire.png", name: "glen_quagmire" },
+  { imgSrc: "./images/familyguy/lois_griffin.png", name: "lois griffin" },
+  { imgSrc: "./images/familyguy/meg_griffin.jpg", name: "meg griffin" },
+  { imgSrc: "./images/familyguy/peter_griffin.png", name: "peter griffin" },
+  { imgSrc: "./images/familyguy/stewie_griffin.jpg", name: "stewie griffin" },
+];
+}

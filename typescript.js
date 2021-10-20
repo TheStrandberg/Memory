@@ -1,4 +1,6 @@
 var section = document.querySelector("section");
+var gameWindow = document.querySelector(".game");
+var startWindow = document.querySelector(".start");
 var main = document.querySelector("main");
 var aside = document.querySelector("aside");
 var playAgainButton = document.querySelector(".playAgainButton");
@@ -6,34 +8,38 @@ var quitButton = document.querySelector(".quitButton");
 var playAgainButton2 = document.querySelector(".playAgainButton-2");
 var quitButton2 = document.querySelector(".quitButton-2");
 var playerLivesCount = document.getElementById("playerLivesCount");
-var playerLives = 6;
+var choice = false;
+var playerLives = 1;
 //Link text
 playerLivesCount.textContent = "" + playerLives;
-//Get the image data
-var getData = function () { return [
-    { imgSrc: "./images/Bart_Simpson.png", name: "bart" },
-    { imgSrc: "./images/Duff_man.png", name: "duff man" },
-    { imgSrc: "./images/Edna_Krabappel.png", name: "edna krabappel" },
-    { imgSrc: "./images/Flandersjunksale.jpg", name: "flanders junk sale" },
-    { imgSrc: "./images/Homer_Simpson.png", name: "homer simpson" },
-    { imgSrc: "./images/Lisa_Simpson.png", name: "lisa simpson" },
-    { imgSrc: "./images/Montgomery_Burns.png", name: "burns" },
-    { imgSrc: "./images/comic_book_man.png", name: "comic book guy" },
-    { imgSrc: "./images/Bart_Simpson.png", name: "bart" },
-    { imgSrc: "./images/Duff_man.png", name: "duff man" },
-    { imgSrc: "./images/Edna_Krabappel.png", name: "edna krabappel" },
-    { imgSrc: "./images/Flandersjunksale.jpg", name: "flanders junk sale" },
-    { imgSrc: "./images/Homer_Simpson.png", name: "homer simpson" },
-    { imgSrc: "./images/Lisa_Simpson.png", name: "lisa simpson" },
-    { imgSrc: "./images/Montgomery_Burns.png", name: "burns" },
-    { imgSrc: "./images/comic_book_man.png", name: "comic book guy" },
-]; };
+var simpsonsButton = document.getElementById("simpsons");
+simpsonsButton.addEventListener("click", playSimpsons);
+function playSimpsons() {
+    startWindow.style.display = "none";
+    gameWindow.style.visibility = "visible";
+    cardGenerator();
+}
+var familyGuyButton = document.getElementById("familyguy");
+familyGuyButton.addEventListener("click", playFamilyGuy);
+function playFamilyGuy() {
+    startWindow.style.display = "none";
+    gameWindow.style.visibility = "visible";
+    choice = true;
+    cardGenerator();
+}
 //Randomize
-var randomize = function () {
-    var cardData = getData();
+function randomize() {
+    var cardData = [];
+    if (choice === false) {
+        cardData = getSimpsonsData();
+    }
+    else {
+        cardData = getFamilyGuyData();
+    }
     cardData.sort(function () { return Math.random() - 0.5; });
     return cardData;
-};
+}
+;
 var cardGenerator = function () {
     var cardData = randomize();
     //Generate HTML
@@ -60,6 +66,7 @@ var cardGenerator = function () {
 };
 var checkCards = function (e) {
     var clickedCard = e.target;
+    clickedCard.style.pointerEvents = "none";
     clickedCard.classList.add("flipped");
     var flippedCards = document.querySelectorAll(".flipped");
     var toggleCard = document.querySelectorAll(".toggleCard");
@@ -69,21 +76,23 @@ var checkCards = function (e) {
         section.style.pointerEvents = "none";
         if (flippedCards[0].getAttribute("name") ===
             flippedCards[1].getAttribute("name")) {
-            console.log("match");
             section.style.pointerEvents = "all";
             flippedCards.forEach(function (card) {
                 card.classList.remove("flipped");
-                card.style.pointerEvents = "none";
             });
         }
         else {
             playerLives--;
             playerLivesCount.textContent = "" + playerLives;
             if (playerLives === 0) {
+                section.style.pointerEvents = "none";
+                flippedCards.forEach(function (card) {
+                    card.classList.remove("flipped");
+                    card.style.pointerEvents = "none";
+                });
                 setTimeout(function () {
                     section.setAttribute("class", "blur");
                     main.style.visibility = "visible";
-                    section.style.pointerEvents = "none";
                     playAgainButton.addEventListener("click", restart);
                     quitButton.onclick = function (event) {
                         close();
@@ -91,12 +100,12 @@ var checkCards = function (e) {
                 }, 1000);
             }
             else {
-                console.log("wrong");
+                section.style.pointerEvents = "none";
                 flippedCards.forEach(function (card) {
                     card.classList.remove("flipped");
                     card.style.pointerEvents = "none";
                     setTimeout(function () {
-                        card.style.pointerEvents = "all";
+                        card.style.pointerEvents = "revert";
                         section.style.pointerEvents = "all";
                         card.classList.remove("toggleCard");
                     }, 1000);
@@ -123,7 +132,7 @@ function restart() {
     cardData.forEach(function (item, index) {
         cards[index].classList.remove("toggleCard");
         setTimeout(function () {
-            cards[index].style.pointerEvents = "all";
+            cards[index].style.pointerEvents = "revert";
             faces[index].src = item.imgSrc;
             cards[index].setAttribute("name", item.name);
         }, 1000);
@@ -137,4 +146,40 @@ function restart() {
         playerLivesCount.textContent = "" + playerLives;
     }, 2000);
 }
-cardGenerator();
+//Get the image data
+var getSimpsonsData = function () { return [
+    { imgSrc: "./images/thesimpsons/Bart_Simpson.png", name: "bart" },
+    { imgSrc: "./images/thesimpsons/Duff_man.png", name: "duff man" },
+    { imgSrc: "./images/thesimpsons/Edna_Krabappel.png", name: "edna krabappel" },
+    { imgSrc: "./images/thesimpsons/Flandersjunksale.jpg", name: "flanders junk sale" },
+    { imgSrc: "./images/thesimpsons/Homer_Simpson.png", name: "homer simpson" },
+    { imgSrc: "./images/thesimpsons/Lisa_Simpson.png", name: "lisa simpson" },
+    { imgSrc: "./images/thesimpsons/Montgomery_Burns.png", name: "burns" },
+    { imgSrc: "./images/thesimpsons/comic_book_man.png", name: "comic book guy" },
+    { imgSrc: "./images/thesimpsons/Bart_Simpson.png", name: "bart" },
+    { imgSrc: "./images/thesimpsons/Duff_man.png", name: "duff man" },
+    { imgSrc: "./images/thesimpsons/Edna_Krabappel.png", name: "edna krabappel" },
+    { imgSrc: "./images/thesimpsons/Flandersjunksale.jpg", name: "flanders junk sale" },
+    { imgSrc: "./images/thesimpsons/Homer_Simpson.png", name: "homer simpson" },
+    { imgSrc: "./images/thesimpsons/Lisa_Simpson.png", name: "lisa simpson" },
+    { imgSrc: "./images/thesimpsons/Montgomery_Burns.png", name: "burns" },
+    { imgSrc: "./images/thesimpsons/comic_book_man.png", name: "comic book guy" },
+]; };
+var getFamilyGuyData = function () { return [
+    { imgSrc: "./images/familyguy/brian_griffin.png", name: "brian griffin" },
+    { imgSrc: "./images/familyguy/chris_griffin.png", name: "chris griffin" },
+    { imgSrc: "./images/familyguy/cleveland_brown.png", name: "cleveland brown" },
+    { imgSrc: "./images/familyguy/glen_quagmire.png", name: "glen_quagmire" },
+    { imgSrc: "./images/familyguy/lois_griffin.png", name: "lois griffin" },
+    { imgSrc: "./images/familyguy/meg_griffin.jpg", name: "meg griffin" },
+    { imgSrc: "./images/familyguy/peter_griffin.png", name: "peter griffin" },
+    { imgSrc: "./images/familyguy/stewie_griffin.jpg", name: "stewie griffin" },
+    { imgSrc: "./images/familyguy/brian_griffin.png", name: "brian griffin" },
+    { imgSrc: "./images/familyguy/chris_griffin.png", name: "chris griffin" },
+    { imgSrc: "./images/familyguy/cleveland_brown.png", name: "cleveland brown" },
+    { imgSrc: "./images/familyguy/glen_quagmire.png", name: "glen_quagmire" },
+    { imgSrc: "./images/familyguy/lois_griffin.png", name: "lois griffin" },
+    { imgSrc: "./images/familyguy/meg_griffin.jpg", name: "meg griffin" },
+    { imgSrc: "./images/familyguy/peter_griffin.png", name: "peter griffin" },
+    { imgSrc: "./images/familyguy/stewie_griffin.jpg", name: "stewie griffin" },
+]; };
