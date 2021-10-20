@@ -11,7 +11,7 @@ const playerLivesCount = document.getElementById("playerLivesCount")! as HTMLEle
 let choice: boolean = false;
 
 
-let playerLives: number = 1;
+let playerLives: number = 6;
 
 //Link text
 playerLivesCount.textContent = "" + playerLives;

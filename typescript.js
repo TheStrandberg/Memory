@@ -9,7 +9,7 @@ var playAgainButton2 = document.querySelector(".playAgainButton-2");
 var quitButton2 = document.querySelector(".quitButton-2");
 var playerLivesCount = document.getElementById("playerLivesCount");
 var choice = false;
-var playerLives = 1;
+var playerLives = 6;
 //Link text
 playerLivesCount.textContent = "" + playerLives;
 var simpsonsButton = document.getElementById("simpsons");

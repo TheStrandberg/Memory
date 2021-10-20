@@ -9,7 +9,7 @@ body {
     align-items: center;
     flex-direction: column;
     height: 100vh;
-    background-image: linear-gradient(rgb(112, 209, 254), rgb(189, 255, 255));
+    background-image: linear-gradient(rgb(41, 165, 124), rgb(27, 95, 55));
 }
 
 .start {
@@ -22,6 +22,30 @@ body {
     text-transform: uppercase;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: white;
+}
+
+.start button {
+    width: 350px;
+    height: 200px;
+    margin: 0.5rem;
+    border: transparent;
+    border-radius: 20px;
+}
+
+#familyguy {
+    background-image: url("images/familyguy/logo.png");
+    background-color: rgb(228, 28, 28);
+    background-repeat: no-repeat;
+    background-size: contain;
+    color: transparent;
+}
+
+#simpsons {
+    background-image: url("images/thesimpsons/logo.png");
+    background-color: rgb(112, 209, 254);
+    background-repeat: no-repeat;
+    background-size: contain;
+    color: transparent;
 }
 
 .game {
@@ -88,7 +112,7 @@ main, aside {
     visibility: hidden;
 }
 
-button {
+main button {
     width: 250px;
     padding: 40px;
     margin-top: 1.4rem;
