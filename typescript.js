@@ -41,7 +41,7 @@ var cardGenerator = function () {
         var card = document.createElement("div");
         var face = document.createElement("img");
         var back = document.createElement("div");
-        //.add in ts, classlist = "card" in js
+        //.add in ts, "classlist = "card""" in js
         card.classList.add("card");
         face.classList.add("face");
         back.classList.add("back");
@@ -77,32 +77,31 @@ var checkCards = function (e) {
             });
         }
         else {
-            console.log("wrong");
-            flippedCards.forEach(function (card) {
-                card.classList.remove("flipped");
-                card.style.pointerEvents = "none";
-                setTimeout(function () {
-                    card.style.pointerEvents = "all";
-                    section.style.pointerEvents = "all";
-                    card.classList.remove("toggleCard");
-                }, 1000);
-            });
             playerLives--;
             playerLivesCount.textContent = "" + playerLives;
-        }
-        if (playerLives === 0) {
-            var card_1 = document.querySelectorAll(".card");
-            card_1.forEach(function (item, index) {
-                card_1[index].style.pointerEvents = "none";
-            });
-            setTimeout(function () {
-                section.setAttribute("class", "blur");
-                main.style.visibility = "visible";
-                playAgainButton.addEventListener("click", restart);
-                quitButton.onclick = function (event) {
-                    close();
-                };
-            }, 1000);
+            if (playerLives === 0) {
+                setTimeout(function () {
+                    section.setAttribute("class", "blur");
+                    main.style.visibility = "visible";
+                    section.style.pointerEvents = "none";
+                    playAgainButton.addEventListener("click", restart);
+                    quitButton.onclick = function (event) {
+                        close();
+                    };
+                }, 1000);
+            }
+            else {
+                console.log("wrong");
+                flippedCards.forEach(function (card) {
+                    card.classList.remove("flipped");
+                    card.style.pointerEvents = "none";
+                    setTimeout(function () {
+                        card.style.pointerEvents = "all";
+                        section.style.pointerEvents = "all";
+                        card.classList.remove("toggleCard");
+                    }, 1000);
+                });
+            }
         }
     }
     if (toggleCard.length === 16) {
@@ -136,6 +135,6 @@ function restart() {
         aside.style.visibility = "hidden";
         playerLives = 6;
         playerLivesCount.textContent = "" + playerLives;
-    }, 1000);
+    }, 2000);
 }
 cardGenerator();
