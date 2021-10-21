@@ -3,13 +3,14 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 body {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     height: 100vh;
-    background-image: linear-gradient(rgb(41, 165, 124), rgb(27, 95, 55));
+    background: linear-gradient(rgb(100, 71, 230),rgb(49, 20, 144));
 }
 
 .start {
@@ -112,7 +113,7 @@ main, aside {
     visibility: hidden;
 }
 
-main button {
+main button, aside button {
     width: 250px;
     padding: 40px;
     margin-top: 1.4rem;

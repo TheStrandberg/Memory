@@ -1,4 +1,5 @@
 var section = document.querySelector("section");
+var body = document.querySelector("body");
 var gameWindow = document.querySelector(".game");
 var startWindow = document.querySelector(".start");
 var main = document.querySelector("main");
@@ -17,6 +18,9 @@ simpsonsButton.addEventListener("click", playSimpsons);
 function playSimpsons() {
     startWindow.style.display = "none";
     gameWindow.style.visibility = "visible";
+    body.style.background = "url(images/thesimpsons/background.jpg)";
+    body.style.backgroundSize = "cover;";
+    // body.style.background = "linear-gradient(rgb(112, 209, 254), rgb(149, 222, 255))";
     cardGenerator();
 }
 var familyGuyButton = document.getElementById("familyguy");
@@ -24,6 +28,8 @@ familyGuyButton.addEventListener("click", playFamilyGuy);
 function playFamilyGuy() {
     startWindow.style.display = "none";
     gameWindow.style.visibility = "visible";
+    body.style.background = "url(images/familyguy/background.jpg)";
+    body.style.backgroundSize = "cover;";
     choice = true;
     cardGenerator();
 }
