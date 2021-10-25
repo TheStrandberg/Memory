@@ -82,10 +82,12 @@ var checkCards = function (e) {
         section.style.pointerEvents = "none";
         if (flippedCards[0].getAttribute("name") ===
             flippedCards[1].getAttribute("name")) {
-            section.style.pointerEvents = "all";
-            flippedCards.forEach(function (card) {
-                card.classList.remove("flipped");
-            });
+            setTimeout(function () {
+                section.style.pointerEvents = "all";
+                flippedCards.forEach(function (card) {
+                    card.classList.remove("flipped");
+                });
+            }, 1000);
         }
         else {
             playerLives--;

@@ -93,10 +93,12 @@ const checkCards = (e) => {
       flippedCards[0].getAttribute("name") ===
       flippedCards[1].getAttribute("name")
     ) {
-      section.style.pointerEvents = "all";
+      setTimeout(() => {
+        section.style.pointerEvents = "all";
       flippedCards.forEach((card: any) => {
         card.classList.remove("flipped");
       });
+      }, 1000);
     } 
     else {
       playerLives--;
@@ -203,4 +205,3 @@ const getFamilyGuyData = () => [
   { imgSrc: "./images/familyguy/peter_griffin.png", name: "peter griffin" },
   { imgSrc: "./images/familyguy/stewie_griffin.jpg", name: "stewie griffin" },
 ];
-}
